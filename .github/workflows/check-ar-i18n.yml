@@ -1,0 +1,18 @@
+   name: Check Arabic i18n Coverage
+
+   on:
+     workflow_dispatch: # Allows you to trigger this manually from the Actions tab
+
+   jobs:
+     check-i18n:
+       runs-on: ubuntu-latest
+       steps:
+         - name: Checkout repository
+           uses: actions/checkout@v4
+
+         - name: Install Rust toolchain
+           uses: dtolnay/rust-toolchain@stable
+
+         - name: Run i18n tests (capture missing keys)
+           run: cargo test -p photocraft-ui-egui --lib i18n -- --nocapture
+           continue-on-error: true # Ensures the step completes so you can read the failure output
